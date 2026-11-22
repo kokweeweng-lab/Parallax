@@ -117,13 +117,20 @@ class SettingsActivity : Activity() {
             })
         }
         root.addView(grid)
-        root.addView(neonButton("用 Nova Launcher 套用图标", 0xFF3FE0FF.toInt()) { applyNova() },
-            LinearLayout.LayoutParams(full).apply { topMargin = dp(12) })
+        root.addView(neonButton("设 Neon 桌面为默认桌面（免费，自带霓虹图标）", 0xFF3FE0FF.toInt()) {
+            try { startActivity(Intent(android.provider.Settings.ACTION_HOME_SETTINGS)) }
+            catch (e: Exception) { startActivity(Intent(android.provider.Settings.ACTION_SETTINGS)) }
+        }, LinearLayout.LayoutParams(full).apply { topMargin = dp(12) })
+        root.addView(neonButton("先预览 Neon 桌面", 0xFFB46CFF.toInt()) {
+            startActivity(Intent(this, LauncherActivity::class.java))
+        }, LinearLayout.LayoutParams(full).apply { topMargin = dp(10) })
+        root.addView(neonButton("（可选）套用到 Nova Launcher", 0xFF555577.toInt()) { applyNova() },
+            LinearLayout.LayoutParams(full).apply { topMargin = dp(10) })
         root.addView(TextView(this).apply {
-            text = "提示：vivo自带桌面不支持第三方图标包。请先安装 Nova Launcher 或 Lawnchair 并设为默认桌面。\n" +
-                "• Nova：点上面按钮，或 Nova设置 → 外观 → 图标样式 → 图标主题 → Neon Mech\n" +
-                "• Lawnchair：设置 → 通用 → 图标包 → Neon Mech\n" +
-                "没有专属图标的App会自动套上霓虹玻璃底框。"
+            text = "用法：先在上面设为动态壁纸，再点\"设 Neon 桌面为默认桌面\"，在\"桌面/主屏幕应用\"里选 Neon 桌面。\n" +
+                "• 所有App自动套霓虹图标，没专属图标的会加霓虹玻璃底框\n" +
+                "• 长按App：应用信息 / 卸载；长按空白处：打开本设置\n" +
+                "• 若找不到选项：设置 → 应用与权限 → 默认应用 → 桌面"
             textSize = 13f
             setTextColor(0xFFB8B0D0.toInt())
             setPadding(0, dp(14), 0, 0)
