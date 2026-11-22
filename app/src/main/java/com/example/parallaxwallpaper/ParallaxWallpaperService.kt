@@ -120,7 +120,8 @@ class ParallaxWallpaperService : WallpaperService() {
                     val y = smoothY * screenH * strength
 
                     // Background and foreground intentionally move in opposite directions.
-                    drawLayer(canvas, background, x * 0.05f, y * 0.05f, backgroundPaint)
+                    // Background is opaque: overscan it so its 5% travel never reveals black edges.
+                    drawLayer(canvas, background, x * 0.05f, y * 0.05f, backgroundPaint, 1f + 0.1f * strength)
                     val pulse = (0.5 + 0.5 * kotlin.math.sin(
                         2.0 * Math.PI * (timeMs % 4000L) / 4000.0
                     )).toFloat()
@@ -137,10 +138,10 @@ class ParallaxWallpaperService : WallpaperService() {
             }
         }
 
-        private fun drawLayer(canvas: Canvas, bitmap: Bitmap?, offsetX: Float, offsetY: Float, paint: Paint) {
+        private fun drawLayer(canvas: Canvas, bitmap: Bitmap?, offsetX: Float, offsetY: Float, paint: Paint, overscan: Float = 1f) {
             if (bitmap == null) return
             // Center-crop to cover the screen, then add parallax translation.
-            val scale = max(screenW.toFloat() / bitmap.width, screenH.toFloat() / bitmap.height)
+            val scale = max(screenW.toFloat() / bitmap.width, screenH.toFloat() / bitmap.height) * overscan
             val width = bitmap.width * scale
             val height = bitmap.height * scale
             val left = (screenW - width) / 2f + offsetX
