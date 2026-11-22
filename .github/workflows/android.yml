@@ -32,13 +32,13 @@ jobs:
           packages: 'platform-tools platforms;android-35 build-tools;35.0.0'
 
       - name: Build signed APK
-        run: gradle --no-daemon :app:assembleRelease && cp app/build/outputs/apk/release/app-release.apk ParallaxWallpaper.apk
+        run: gradle --no-daemon :app:assembleRelease && cp app/build/outputs/apk/release/app-release.apk NeonMech.apk
 
       - name: Upload installable APK
         uses: actions/upload-artifact@v4
         with:
           name: parallax-live-wallpaper-debug-apk
-          path: ParallaxWallpaper.apk
+          path: NeonMech.apk
           if-no-files-found: error
           retention-days: 14
 
@@ -47,6 +47,6 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           tag_name: build-${{ github.run_number }}
-          name: Parallax Live Wallpaper build ${{ github.run_number }}
-          files: ParallaxWallpaper.apk
+          name: Neon Mech build ${{ github.run_number }}
+          files: NeonMech.apk
           make_latest: true

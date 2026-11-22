@@ -9,11 +9,11 @@ android {
 
     defaultConfig {
         // Unique id so it never clashes with an earlier test install.
-        applicationId = "com.reykok.parallaxwallpaper"
+        applicationId = "com.reykok.neonmech"
         minSdk = 23
         targetSdk = 35
-        versionCode = 3
-        versionName = "2.1"
+        versionCode = 1
+        versionName = "1.0"
     }
 
     signingConfigs {
