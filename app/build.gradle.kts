@@ -8,18 +8,36 @@ android {
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.example.parallaxwallpaper"
+        // Unique id so it never clashes with an earlier test install.
+        applicationId = "com.reykok.parallaxwallpaper"
         minSdk = 23
         targetSdk = 35
-        versionCode = 2
-        versionName = "2.0"
+        versionCode = 3
+        versionName = "2.1"
+    }
+
+    signingConfigs {
+        // Fixed key committed to the repo so every GitHub build has the same signature
+        // and new versions install over old ones. Personal-use key, not for Play Store.
+        create("fixed") {
+            storeFile = file("parallax.p12")
+            storeType = "pkcs12"
+            storePassword = "parallax123"
+            keyAlias = "parallax"
+            keyPassword = "parallax123"
+            enableV1Signing = true
+            enableV2Signing = true
+            enableV3Signing = true
+        }
     }
 
     buildTypes {
+        debug {
+            signingConfig = signingConfigs.getByName("fixed")
+        }
         release {
             isMinifyEnabled = false
-            // Signed with the debug key so the release APK can be installed directly for personal use.
-            signingConfig = signingConfigs.getByName("debug")
+            signingConfig = signingConfigs.getByName("fixed")
         }
     }
 
